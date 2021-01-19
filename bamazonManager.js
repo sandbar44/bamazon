@@ -61,13 +61,13 @@ function displayAllItems() {
                 res[i].item_id,
                 res[i].product_name,
                 res[i].department_name,
-                res[i].price,
+                parseFloat(res[i].price).toFixed(2),
                 res[i].stock_quantity,
-                res[i].product_sales
+                parseFloat(res[i].product_sales).toFixed(2)
             ];
             values.push(row);
         };
-        console.table(['department_id', 'department_name', 'over_head_costs', 'product_sales', 'total_profit'], values);
+        console.table(['item_id', 'product_name', 'department_name', 'price', 'stock_quantity', 'product_sales'], values);
         console.log("");
         if (err) throw err;
         displayMenu();
@@ -83,13 +83,13 @@ function viewLowInventory() {
                 res[i].item_id,
                 res[i].product_name,
                 res[i].department_name,
-                res[i].price,
+                parseFloat(res[i].price).toFixed(2),
                 res[i].stock_quantity,
-                res[i].product_sales
+                parseFloat(res[i].product_sales).toFixed(2)
             ];
             values.push(row);
         };
-        console.table(['department_id', 'department_name', 'over_head_costs', 'product_sales', 'total_profit'], values);
+        console.table(['item_id', 'product_name', 'department_name', 'price', 'stock_quantity', 'product_sales'], values);
         console.log("");
         if (err) throw err;
         displayMenu();
@@ -204,7 +204,8 @@ function addNewProduct() {
                     product_name: answer.product_name,
                     department_name: answer.department_name,
                     price: answer.price,
-                    stock_quantity: answer.stock_quantity
+                    stock_quantity: answer.stock_quantity,
+                    product_sales: 0
                 },
                 function (err) {
                     if (err) throw err;

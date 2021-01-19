@@ -6,8 +6,9 @@ CREATE TABLE products (
   item_id INTEGER AUTO_INCREMENT NOT NULL,
   product_name VARCHAR(30) NOT NULL,
   department_name VARCHAR(30),
-  price FLOAT(4),
+  price DECIMAL(10,2),
   stock_quantity INTEGER NOT NULL,
+  product_sales DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (item_id)
 );
 
@@ -53,7 +54,7 @@ DROP TABLE departments;
 CREATE TABLE departments (
   department_id INTEGER AUTO_INCREMENT NOT NULL,
   department_name VARCHAR(30),
-  over_head_costs FLOAT(4) NOT NULL,
+  over_head_costs DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (department_id)
 );
 
@@ -74,10 +75,12 @@ VALUES ("Music",20000);
 
 SELECT * FROM departments;
 
-SELECT d.*, sum(p.product_sales), (p.product_sales-d.over_head_costs) as total_profit
+SELECT d.*, sum(p.product_sales) as product_sales, (p.product_sales-d.over_head_costs) as total_profit
 FROM departments d LEFT JOIN products p ON d.department_name = p.department_name
 GROUP BY d.department_name,d.over_head_costs;
 
 ALTER TABLE products
 ADD product_sales INTEGER NOT NULL;
 
+ALTER TABLE products
+MODIFY COLUMN product_sales DECIMAL(10,2) NOT NULL;

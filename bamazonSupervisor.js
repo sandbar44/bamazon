@@ -44,20 +44,30 @@ function displayMenu() {
 };
 
 function salesByDept() {
-    var query = "SELECT d.*, sum(p.product_sales), (p.product_sales-d.over_head_costs) as total_profit ";
+    var query = "SELECT d.*, sum(p.product_sales) as product_sales, (sum(p.product_sales)-d.over_head_costs) as total_profit ";
     query += "FROM departments d LEFT JOIN products p ON d.department_name = p.department_name ";
     query += "GROUP BY d.department_name, d.over_head_costs";
 
     connection.query(query, function (err, res) {
         console.log("");
         var values = [];
+        var product_sales = 0;
+        var total_profit = 0;
         for (var i = 0; i < res.length; i++) {
+            if (res[i].product_sales === null) {
+                product_sales = 0;
+                total_profit = 0;
+            }
+            else {
+                product_sales = res[i].product_sales;
+                total_profit = res[i].total_profit;
+            };
             var row = [
                 res[i].department_id,
                 res[i].department_name,
                 res[i].over_head_costs,
-                res[i].product_sales,
-                res[i].total_profit
+                parseFloat(product_sales).toFixed(2),
+                parseFloat(total_profit).toFixed(2)
             ];
             values.push(row);
         };

@@ -25,13 +25,13 @@ function displayAllItems() {
                 res[i].item_id,
                 res[i].product_name,
                 res[i].department_name,
-                res[i].price,
+                parseFloat(res[i].price).toFixed(2),
                 res[i].stock_quantity,
-                res[i].product_sales
+                // parseFloat(res[i].product_sales).toFixed(2) // hide from customer
             ];
             values.push(row);
         };
-        console.table(['department_id', 'department_name', 'over_head_costs', 'product_sales', 'total_profit'], values);
+        console.table(['item_id', 'product_name', 'department_name', 'price', 'stock_quantity'], values);
         console.log("");
         if (err) throw err;
     });
@@ -84,7 +84,7 @@ function newOrder() {
                     console.log("Insufficient quantity! Please try again...");
                     console.log("----------------------------------------------");
                     console.log("");
-                    newOrder();
+                    nextAction();
                 }
                 else {
                     // fulfill order
@@ -104,7 +104,7 @@ function newOrder() {
                             if (error) throw err;
                             console.log("----------------------------------------------");
                             console.log("Order placed successfully!");
-                            console.log("Order total: $" + orderQty * chosenItem.price);
+                            console.log("Order total: $" + parseFloat(orderQty * chosenItem.price).toFixed(2));
                             console.log("----------------------------------------------");
                             console.log("");
                             nextAction();
